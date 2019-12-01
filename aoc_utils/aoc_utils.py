@@ -23,6 +23,14 @@ def save(path_to_save, year, day, content_type):
     content = fetch(year, day, content_type)
     with open(f"{path_to_save}/{content_type}.txt", "w") as text_file:
         text_file.write(content)
+    
+    return content
+
+
+def detect_time():
+    c = os.getcwd()
+
+    return [c.split('/')[-2], c.split('/')[-1].split('-')[1]]
 
 
 def submit(year, day, level, answer):
@@ -46,7 +54,8 @@ def submit(year, day, level, answer):
             print("Writing '*' to star file...")
             text_file.write('*')
     elif "That's not the right answer" in message:
-        print("Wrong answer!")
+        print("Wrong answer! For details:\n")
+        print(message)
     elif "You gave an answer too recently" in message:
         print("Wait a bit, too recent a answer...")
 
@@ -56,13 +65,27 @@ def test(test_cases, answer):
     for test_case in test_cases:
         submitted_answer = answer(test_case['input'], test_case['level'])
         if str(test_case['output']) == str(submitted_answer):
-            print(f"{Fore.GREEN}Test passed! for input {test_case['output']}{Style.RESET_ALL}")
+            print(f"{Fore.GREEN}Test passed for part {test_case['level']}! for input {test_case['output']}{Style.RESET_ALL}")
         else:
             passed = False
             print(f"{Fore.RED}Test failed :( for input {test_case['input']}, you put {submitted_answer}, correct: {test_case['output']}{Style.RESET_ALL}")
 
     if passed:
         return 'passed'
+
+
+def fetch_and_save(year, day):
+    current_dir = os.curdir
+    if os.path.exists(f'{current_dir}/input.txt'):
+        print('Found input already, using saved input...\n')
+        with open(f'{current_dir}/input.txt') as file:
+            problem_input = file.read()
+    else:
+        print('Input not found, fetching...\n')
+        problem_input = save(current_dir, 2019, 1, 'input')
+        save(current_dir, 2019, 1, 'problem')
+    
+    return problem_input
 
 
 def check_stars():
