@@ -53,7 +53,7 @@ def submit(year, day, level, answer):
         with open(f"{star_path}/stars.txt", "w+") as text_file:
             print("Writing '*' to star file...")
             text_file.write('*')
-            if level == 2:
+            if level == 1:
                 current_dir = os.curdir
                 print("Updated problem with part 2:\n\n")
                 print(save(current_dir, year, day, 'problem'))
@@ -78,7 +78,7 @@ def test(test_cases, answer):
         return 'passed'
 
 
-def fetch_and_save(year=None, day=None, fetch_part_two=False):
+def fetch_and_save(year=None, day=None):
     if not year:
         year, day = detect_time()
     current_dir = os.curdir
@@ -89,10 +89,6 @@ def fetch_and_save(year=None, day=None, fetch_part_two=False):
     else:
         print('Input not found, fetching...\n')
         problem_input = save(current_dir, year, day, 'input')
-        print(save(current_dir, year, day, 'problem'))
-
-    if fetch_part_two:
-        print("Attempting to pull part 2, so overwriting previous...")
         print(save(current_dir, year, day, 'problem'))
     
     return problem_input
