@@ -103,10 +103,11 @@ def check_stars():
             return len(stars)
 
 
-def test_and_submit(test_cases, problem_input, answer, year=None, day=None):
+def test_and_submit(answer, test_cases, year=None, day=None):
     if not year:
         year, day = detect_time()
 
+    problem_input = fetch_and_save()
     test_results = test(test_cases, answer)
 
     if test_results == 'passed':

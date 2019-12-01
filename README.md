@@ -69,9 +69,8 @@ day = 1
 test_cases = [
   ['<level>', '<correct_answer>', '<submitted_answer>']
 ]
-problem_input = aoc_utils.fetch(2019, 1, 'input')
 def answer(level, input):
     print('solve puzzle')
 
-aoc_utils.test_and_submit(year, day, test_cases, problem_input, answer)
+aoc_utils.test_and_submit(year, day, test_cases, answer)
 ```
