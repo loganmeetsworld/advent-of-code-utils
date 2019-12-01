@@ -14,7 +14,7 @@ def fetch(year, day, content_type):
         response = requests.get(f"https://adventofcode.com/{year}/day/{day}", headers=headers)
         _handle_error(response.status_code)
         soup = BeautifulSoup(response.text, "html.parser")
-        message = soup.article.text
+        message = '\n\n\n'.join([a.text for a in soup.select('article')])
 
     return message
 
@@ -48,15 +48,15 @@ def submit(year, day, level, answer):
     message = soup.article.text
 
     if "That's the right answer" in message:
-        print("Correct! ⭐️")
+        print(f"{Fore.GREEN}Correct! ⭐️{Style.RESET_ALL}")
         star_path = os.getcwd()
         with open(f"{star_path}/stars.txt", "w+") as text_file:
             print("Writing '*' to star file...")
             text_file.write('*')
     elif "That's not the right answer" in message:
-        print("Wrong answer! For details:\n")
+        print(f"{Fore.RED}Wrong answer! For details:\n{Style.RESET_ALL}")
         print(message)
-    elif "You gave an answer too recently" in message:
+    elif f"{Fore.YELLOW}You gave an answer too recently\n{Style.RESET_ALL}" in message:
         print("Wait a bit, too recent a answer...")
 
 
@@ -74,7 +74,7 @@ def test(test_cases, answer):
         return 'passed'
 
 
-def fetch_and_save(year=None, day=None):
+def fetch_and_save(year=None, day=None, fetch_part_two=False):
     if not year:
         year, day = detect_time()
     current_dir = os.curdir
@@ -84,8 +84,12 @@ def fetch_and_save(year=None, day=None):
             problem_input = file.read()
     else:
         print('Input not found, fetching...\n')
-        problem_input = save(current_dir, 2019, 1, 'input')
-        save(current_dir, 2019, 1, 'problem')
+        problem_input = save(current_dir, year, day, 'input')
+        print(save(current_dir, year, day, 'problem'))
+
+    if fetch_part_two:
+        print("Attempting to pull part 2, so overwriting previous...")
+        print(save(current_dir, year, day, 'problem'))
     
     return problem_input
 
@@ -111,23 +115,25 @@ def test_and_submit(test_cases, problem_input, answer, year=None, day=None):
         if stars and stars < 2:
             print('Would you like to submit this answer? y/n')
         else:
-            print("It seems we've been here before and you've submitted both answers!")
+            print("It seems we've been here before and you've submitted both answers! ⭐️⭐️")
 
         if stars == 0:
-            print(f'Part 1: {answer(problem_input, 1)}')
+            part_one_answer = answer(problem_input, 1)
+            print(f'Part 1: {part_one_answer}')
             submit_answer = input()
             if submit_answer == 'y':
-                submit(year, day, 1, answer(problem_input, 1))
+                submit(year, day, 1, part_one_answer)
 
         elif stars == 1:
-            print(f'Part 2: {answer(problem_input, 2)}')
+            part_two_answer = answer(problem_input, 2)
+            print(f'Part 2: {part_two_answer}')
             submit_answer = input()
             if submit_answer == 'y':
-                submit(year, day, 2, answer(problem_input, 2))
+                submit(year, day, 2, part_two_answer)
 
 
 def _handle_error(code):
     if code == 404:
-        raise ValueError("This day is not available yet!")
+        raise ValueError(f"{Fore.RED}This day is not available yet!{Style.RESET_ALL}")
     elif code == 400:
-        raise ValueError("Bad credentials!")
+        raise ValueError(f"{Fore.RED}Bad credentials!{Style.RESET_ALL}")
