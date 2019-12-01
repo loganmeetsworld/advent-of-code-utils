@@ -45,8 +45,12 @@ def submit(path, level, answer):
     message = soup.article.text
 
     if "That's the right answer" in message:
-        # TODO: Write a star to the file
         print("Correct!")
+        star_path = "/".join(path.split("/")[0:-1])
+        with open(f"{star_path}/stars.txt", "w+") as text_file:
+            print("Writing '*' to star file...")
+            text_file.write('*')
+
     elif "That's not the right answer" in message:
         print("Wrong answer!")
     elif "You gave an answer too recently" in message:
