@@ -69,10 +69,10 @@ def test(test_cases, answer):
     for test_case in test_cases:
         submitted_answer = answer(test_case['input'], test_case['level'])
         if str(test_case['output']) == str(submitted_answer):
-            print(f"{Fore.GREEN}Test passed for part {test_case['level']}! for input {test_case['output']}{Style.RESET_ALL}")
+            print(f"{Fore.GREEN}Test passed 🥳{Style.RESET_ALL} Part: {test_case['level']}; Input: '{test_case['output']}'")
         else:
             passed = False
-            print(f"{Fore.RED}Test failed :( for input {test_case['input']}, you put {submitted_answer}, correct: {test_case['output']}{Style.RESET_ALL}")
+            print(f"{Fore.RED}Test failed ☹️ {Style.RESET_ALL} Part: {test_case['level']}; Input: '{test_case['input']}'; Submitted: '{submitted_answer}'; Correct: '{test_case['output']}'")
 
     if passed:
         return 'passed'
@@ -89,7 +89,7 @@ def fetch_and_save(year=None, day=None):
     else:
         print('Input not found, fetching...\n')
         problem_input = save(current_dir, year, day, 'input')
-        print(save(current_dir, year, day, 'problem'))
+        print(f"\n{save(current_dir, year, day, 'problem')}\n")
     
     return problem_input
 
@@ -112,12 +112,12 @@ def test_and_submit(test_cases, problem_input, answer, year=None, day=None):
     if test_results == 'passed':
         print("\nCongratulations! All tests passed.")
         stars = check_stars()
-        if stars and stars < 2:
+        if not stars or stars < 2:
             print('Would you like to submit this answer? y/n')
         else:
             print("It seems we've been here before and you've submitted both answers! ⭐️⭐️")
 
-        if stars == 0:
+        if not stars:
             part_one_answer = answer(problem_input, 1)
             print(f'Are you sure you want to submit part 1? Answer: {part_one_answer}')
             submit_answer = input()
