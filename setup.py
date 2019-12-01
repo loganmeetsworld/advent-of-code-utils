@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="aoc_utils",
-    version="0.0.3",
+    version="0.0.4",
     author="Logan McDonald",
     author_email="loganmcdona11@gmail.com",
     description="A aoc_utils package",

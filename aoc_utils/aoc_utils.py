@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from colorama import Fore, Style
 import os
 import requests
 
@@ -39,12 +40,11 @@ def submit(year, day, level, answer):
     message = soup.article.text
 
     if "That's the right answer" in message:
-        print("Correct!")
+        print("Correct! ⭐️")
         star_path = os.getcwd()
         with open(f"{star_path}/stars.txt", "w+") as text_file:
             print("Writing '*' to star file...")
             text_file.write('*')
-
     elif "That's not the right answer" in message:
         print("Wrong answer!")
     elif "You gave an answer too recently" in message:
@@ -54,14 +54,12 @@ def submit(year, day, level, answer):
 def test(test_cases, answer):
     passed = True
     for test_case in test_cases:
-        problem_input = test_case[1]
-        submitted_answer = answer(problem_input, test_case[0])
-        real_answer = test_case[2]
-        if str(real_answer) == str(submitted_answer):
-            print(f"Test passed! for input {real_answer}")
+        submitted_answer = answer(test_case['input'], test_case['level'])
+        if str(test_case['output']) == str(submitted_answer):
+            print(f"{Fore.GREEN}Test passed! for input {test_case['output']}{Style.RESET_ALL}")
         else:
             passed = False
-            print(f"Test failed :( for input {problem_input}, you put {submitted_answer}, correct: {real_answer}")
+            print(f"{Fore.RED}Test failed :( for input {test_case['input']}, you put {submitted_answer}, correct: {test_case['output']}{Style.RESET_ALL}")
 
     if passed:
         return 'passed'
