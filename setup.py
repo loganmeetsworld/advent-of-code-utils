@@ -5,14 +5,14 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="aoc_utils",
-    version="0.0.1",
+    version="0.0.3",
     author="Logan McDonald",
     author_email="loganmcdona11@gmail.com",
     description="A aoc_utils package",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/loganmeetsworld/aoc-utils",
-    packages=setuptools.find_packages(),
+    packages=['aoc_utils'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
