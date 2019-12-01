@@ -104,6 +104,6 @@ def test_and_submit(path, test_cases, problem_input, answer):
 
 def _handle_error(code):
     if code == 404:
-        raise "This day is not available yet!"
+        raise ValueError("This day is not available yet!")
     elif code == 400:
-        raise "Bad credentials!"
+        raise ValueError("Bad credentials!")
