@@ -74,7 +74,9 @@ def test(test_cases, answer):
         return 'passed'
 
 
-def fetch_and_save(year, day):
+def fetch_and_save(year=None, day=None):
+    if not year:
+        year, day = detect_time()
     current_dir = os.curdir
     if os.path.exists(f'{current_dir}/input.txt'):
         print('Found input already, using saved input...\n')
@@ -97,7 +99,10 @@ def check_stars():
             return len(stars)
 
 
-def test_and_submit(year, day, test_cases, problem_input, answer):
+def test_and_submit(test_cases, problem_input, answer, year=None, day=None):
+    if not year:
+        year, day = detect_time()
+
     test_results = test(test_cases, answer)
 
     if test_results == 'passed':
