@@ -3,9 +3,7 @@ import os
 import requests
 
 
-def fetch(path, content_type):
-    year = path.split("/")[-3]
-    day = path.split("/")[-2].split("-")[1]
+def fetch(year, day, content_type):
     headers = {"cookie": f"session={os.environ['SESSION_COOKIE']}",}
     if content_type == 'input':
         response = requests.get(f"https://adventofcode.com/{year}/day/{day}/input", headers=headers)
@@ -20,17 +18,13 @@ def fetch(path, content_type):
     return message
 
 
-def save(path, content_type):
-    content = fetch(path, content_type)
-    save_path = "/".join(path.split("/")[0:-1])
-    with open(f"{save_path}/{content_type}.txt", "w") as text_file:
+def save(path_to_save, year, day, content_type):
+    content = fetch(year, day, content_type)
+    with open(f"{path_to_save}/{content_type}.txt", "w") as text_file:
         text_file.write(content)
 
 
-def submit(path, level, answer):
-    year = path.split("/")[-3]
-    day = path.split("/")[-2].split("-")[1]
-
+def submit(year, day, level, answer):
     print(f"For Day {day}, Part {level}, we are submitting answer: {answer}")
 
     headers = {"cookie": f"session={os.environ['SESSION_COOKIE']}",}
@@ -46,7 +40,7 @@ def submit(path, level, answer):
 
     if "That's the right answer" in message:
         print("Correct!")
-        star_path = "/".join(path.split("/")[0:-1])
+        star_path = os.getcwd()
         with open(f"{star_path}/stars.txt", "w+") as text_file:
             print("Writing '*' to star file...")
             text_file.write('*')
@@ -73,8 +67,8 @@ def test(test_cases, answer):
         return 'passed'
 
 
-def check_stars(path):
-    star_path = "/".join(path.split("/")[0:-1])
+def check_stars():
+    star_path = os.getcwd()
     star_file = f"{star_path}/stars.txt"
     if os.path.exists(star_file):
         with open(star_file, 'r') as file:
@@ -82,12 +76,12 @@ def check_stars(path):
             return len(stars)
 
 
-def test_and_submit(path, test_cases, problem_input, answer):
+def test_and_submit(year, day, test_cases, problem_input, answer):
     test_results = test(test_cases, answer)
 
     if test_results == 'passed':
         print("\nCongratulations! All tests passed.")
-        stars = check_stars(os.path.abspath(__file__))
+        stars = check_stars()
         if stars and stars < 2:
             print('Would you like to submit this answer? y/n')
         else:
@@ -97,13 +91,13 @@ def test_and_submit(path, test_cases, problem_input, answer):
             print(f'Part 1: {answer(problem_input, 1)}')
             submit_answer = input()
             if submit_answer == 'y':
-                submit(os.path.abspath(__file__), 1, answer(problem_input, 1))
+                submit(year, day, 1, answer(problem_input, 1))
 
         elif stars == 1:
             print(f'Part 2: {answer(problem_input, 2)}')
             submit_answer = input()
             if submit_answer == 'y':
-                submit(os.path.abspath(__file__), 2, answer(problem_input, 2))
+                submit(year, day, 2, answer(problem_input, 2))
 
 
 def _handle_error(code):
