@@ -53,6 +53,10 @@ def submit(year, day, level, answer):
         with open(f"{star_path}/stars.txt", "w+") as text_file:
             print("Writing '*' to star file...")
             text_file.write('*')
+            if level == 2:
+                current_dir = os.curdir
+                print("Updated problem with part 2:\n\n")
+                print(save(current_dir, year, day, 'problem'))
     elif "That's not the right answer" in message:
         print(f"{Fore.RED}Wrong answer! For details:\n{Style.RESET_ALL}")
         print(message)
@@ -119,14 +123,14 @@ def test_and_submit(test_cases, problem_input, answer, year=None, day=None):
 
         if stars == 0:
             part_one_answer = answer(problem_input, 1)
-            print(f'Part 1: {part_one_answer}')
+            print(f'Are you sure you want to submit part 1? Answer: {part_one_answer}')
             submit_answer = input()
             if submit_answer == 'y':
                 submit(year, day, 1, part_one_answer)
 
         elif stars == 1:
             part_two_answer = answer(problem_input, 2)
-            print(f'Part 2: {part_two_answer}')
+            print(f'Are you sure you want to submit part 2? Answer: {part_two_answer}')
             submit_answer = input()
             if submit_answer == 'y':
                 submit(year, day, 2, part_two_answer)
