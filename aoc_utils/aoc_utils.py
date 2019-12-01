@@ -5,7 +5,7 @@ import requests
 
 
 def fetch(year, day, content_type):
-    headers = {"cookie": f"session={os.environ['SESSION_COOKIE']}",}
+    headers = {"cookie": f"session={os.environ['SESSION_COOKIE']}", }
     if content_type == 'input':
         response = requests.get(f"https://adventofcode.com/{year}/day/{day}/input", headers=headers)
         _handle_error(response.status_code)
@@ -23,7 +23,7 @@ def save(path_to_save, year, day, content_type):
     content = fetch(year, day, content_type)
     with open(f"{path_to_save}/{content_type}.txt", "w") as text_file:
         text_file.write(content)
-    
+
     return content
 
 
@@ -34,9 +34,9 @@ def detect_time():
 
 
 def submit(year, day, level, answer):
-    print(f"For Day {day}, Part {level}, we are submitting answer: {answer}")
+    print(f"\nFor Day {day}, Part {level}, we are submitting answer: {answer}\n")
 
-    headers = {"cookie": f"session={os.environ['SESSION_COOKIE']}",}
+    headers = {"cookie": f"session={os.environ['SESSION_COOKIE']}", }
     data = {
         "level": str(level),
         "answer": str(answer)
@@ -69,10 +69,10 @@ def test(test_cases, answer):
     for test_case in test_cases:
         submitted_answer = answer(test_case['input'], test_case['level'])
         if str(test_case['output']) == str(submitted_answer):
-            print(f"{Fore.GREEN}Test passed 🥳{Style.RESET_ALL} Part: {test_case['level']}; Input: '{test_case['output']}'")
+            print(f"{Fore.GREEN}Test passed 🥳 {Style.RESET_ALL} Part {test_case['level']}; Input: '{test_case['input']}'; Output: '{test_case['output']}'")
         else:
             passed = False
-            print(f"{Fore.RED}Test failed ☹️ {Style.RESET_ALL} Part: {test_case['level']}; Input: '{test_case['input']}'; Submitted: '{submitted_answer}'; Correct: '{test_case['output']}'")
+            print(f"{Fore.RED}Test failed ☹️ {Style.RESET_ALL} Part {test_case['level']}; Input: '{test_case['input']}'; Submitted: '{submitted_answer}'; Correct: '{test_case['output']}'")
 
     if passed:
         return 'passed'
@@ -90,7 +90,7 @@ def fetch_and_save(year=None, day=None):
         print('Input not found, fetching...\n')
         problem_input = save(current_dir, year, day, 'input')
         print(f"\n{save(current_dir, year, day, 'problem')}\n")
-    
+
     return problem_input
 
 
@@ -119,14 +119,15 @@ def test_and_submit(test_cases, problem_input, answer, year=None, day=None):
 
         if not stars:
             part_one_answer = answer(problem_input, 1)
-            print(f'Are you sure you want to submit part 1? Answer: {part_one_answer}')
+            print(f'\nAre you sure you want to submit part 1? Answer: {part_one_answer}')
             submit_answer = input()
             if submit_answer == 'y':
                 submit(year, day, 1, part_one_answer)
 
         elif stars == 1:
+            print("It seems we'e been here before and you've submitted one answer! ⭐️")
             part_two_answer = answer(problem_input, 2)
-            print(f'Are you sure you want to submit part 2? Answer: {part_two_answer}')
+            print(f'\nAre you sure you want to submit part 2? Answer: {part_two_answer}')
             submit_answer = input()
             if submit_answer == 'y':
                 submit(year, day, 2, part_two_answer)
