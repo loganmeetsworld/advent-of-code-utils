@@ -85,7 +85,7 @@ def test(answer_func, cases):
             print(f"{Fore.GREEN}🎄 Test passed {Style.RESET_ALL}[Part {tc['level']}] Input: '{tc['input']}'; Output: '{tc['output']}'")
         else:
             all_passed = False
-            print(f"{Fore.RED}🔥🎄Test failed {Style.RESET_ALL}[Part {tc['level']}] Input: '{tc['input']}'; Submitted: '{answer}'; Correct: '{tc['output']}'")
+            print(f"{Fore.RED}🔥 Test failed {Style.RESET_ALL}[Part {tc['level']}] Input: '{tc['input']}'; Submitted: '{answer}'; Correct: '{tc['output']}'")
 
     return all_passed
 
@@ -136,3 +136,5 @@ def run(answer_func, test_cases=None, year=None, day=None):
                 submit(answer, level, year, day)
         else:
             print("It seems we've been here before and you've submitted both answers! ⭐️⭐️\n")
+    else:
+        print("\n🤷‍♀️ You know the rules. Tests don't pass, YOU don't pass.\n")
