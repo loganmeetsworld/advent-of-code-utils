@@ -59,10 +59,14 @@ def submit(answer, level, year, day):
         star_path = os.getcwd()
         with open(f"{star_path}/stars.txt", "w+") as text_file:
             print("Writing '*' to star file...")
-            text_file.write('*')
             if level == 1:
-                print("Updated problem with part 2:\n\n")
-                print(save(year, day, 'problem'))
+                text_file.write('*')
+            elif level == 2:
+                text_file.write('**')
+
+        if level == 1:
+            print("Updated problem with part 2:\n\n")
+            print(save(year, day, 'problem'))
     elif "not the right answer" in message.lower():
         print(f"\n{Fore.RED}Wrong answer 🎅🏾🙅🏼‍♀️! For details:\n{Style.RESET_ALL}")
         print(message)
