@@ -80,7 +80,7 @@ def test(answer_func, cases):
         return all_passed
 
     for tc in cases:
-        answer = answer_func(tc['input'], tc['level'])
+        answer = answer_func(tc['input'], tc['level'], test=True)
         if str(tc['output']) == str(answer):
             print(f"{Fore.GREEN}🎄 Test passed {Style.RESET_ALL}[Part {tc['level']}] Input: '{tc['input']}'; Output: '{tc['output']}'")
         else:
