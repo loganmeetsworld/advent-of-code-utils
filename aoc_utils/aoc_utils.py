@@ -47,11 +47,7 @@ def fetch_and_save(year, day):
         return save(year, day, content_type="input")
 
 
-def detect_time():
-    return [CURRENT_DIR.split('/')[-2], CURRENT_DIR.split('/')[-1].split('-')[1]]
-
-
-def submit(year, day, level, answer):
+def submit(answer, level, year, day):
     print(f"\nFor Day {day}, Part {level}, we are submitting answer: {answer}\n")
     data = {"level": str(level), "answer": str(answer)}
     response = requests.post(f"https://adventofcode.com/{year}/day/{day}/answer", headers=HEADERS, data=data)
@@ -72,6 +68,8 @@ def submit(year, day, level, answer):
         print(message)
     elif "answer too recently" in message.lower():
         print(f"\n{Fore.YELLOW}You gave an answer too recently{Style.RESET_ALL}")
+    elif "already complete it" in message.lower():
+        print(f"\n{Fore.YELLOW}You have already solved this. Make sure a local stars.txt file is present that reflects your stars for this problem.{Style.RESET_ALL}")
 
 
 def test(answer_func, cases):
@@ -115,7 +113,7 @@ def handle_error_status(code):
 
 def run(answer_func, test_cases=None, year=None, day=None):
     if not year and not day:
-        year, day = detect_time()
+        year, day = CURRENT_DIR.split('/')[-2:]
 
     problem_input = fetch_and_save(year, day)
 
@@ -123,16 +121,18 @@ def run(answer_func, test_cases=None, year=None, day=None):
         print("\n🍾 Now looking to submit your answers 🍾\n")
         stars = check_stars()
         if not stars:
-            answer = answer_func(problem_input, 1)
-            print("🙇‍♀️ You are submitting your answer to part 1 of this puzzle. \nDo you want to submit? P1: {answer}\n")
+            level = 1
+            answer = answer_func(problem_input, level)
+            print(f"🙇‍♀️ You are submitting your answer to part 1 of this puzzle. \nDo you want to submit part 1 (y/n)? P1: {answer}")
             submit_answer = input()
             if submit_answer == 'y':
-                submit(year, day, answer, level=1)
+                submit(answer, level, year, day)
         elif stars == 1:
-            answer = answer_func(problem_input, 2)
-            print("👯‍♀️  It seems we've been here before and you've submitted one answer ⭐️ \nDo you want to submit? P1: {answer}\n")
+            level = 2
+            answer = answer_func(problem_input, level)
+            print(f"👯‍♀️  It seems we've been here before and you've submitted one answer ⭐️ \nDo you want to submit part 2 (y/n)? P2: {answer}")
             submit_answer = input()
             if submit_answer == 'y':
-                submit(year, day, answer, level=2)
+                submit(answer, level, year, day)
         else:
             print("It seems we've been here before and you've submitted both answers! ⭐️⭐️\n")

@@ -24,7 +24,7 @@ Once you have the module installed and the session cookie set you can use by imp
 from aoc_utils import aoc_utils
 ```
 
-Current it is just one module for the package. One you have it there are several functions available. The package assumes you are in a current directory of the problem you are trying to solve. The `run` method allows you to enter the year and day if you want to specify. For me, I have all my problems formatted `advent_of_code/2019/day-1` which allows me to guess the year and day.
+Current it is just one module for the package. One you have it there are several functions available. The package assumes you are in a current directory of the problem you are trying to solve. The `run` method allows you to enter the year and day if you want to specify. For me, I have all my problems formatted `advent_of_code/2019/1` which allows me to guess the year and day.
 
 We can fetch our input or our problem within a folder like so:
 
