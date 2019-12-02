@@ -74,16 +74,16 @@ def submit(year, day, level, answer):
         print(f"\n{Fore.YELLOW}You gave an answer too recently{Style.RESET_ALL}")
 
 
-def test(answer, cases):
+def test(answer_func, cases):
     all_passed = True
 
     for tc in cases:
-        submitted_answer = answer(tc['input'], tc['level'])
-        if str(tc['output']) == str(submitted_answer):
+        answer = answer_func(tc['input'], tc['level'])
+        if str(tc['output']) == str(answer):
             print(f"{Fore.GREEN}Test passed 🥳 {Style.RESET_ALL} Part {tc['level']}; Input: '{tc['input']}'; Output: '{tc['output']}'")
         else:
             all_passed = False
-            print(f"{Fore.RED}Test failed ☹️ {Style.RESET_ALL} Part {tc['level']}; Input: '{tc['input']}'; Submitted: '{submitted_answer}'; Correct: '{tc['output']}'")
+            print(f"{Fore.RED}Test failed ☹️ {Style.RESET_ALL} Part {tc['level']}; Input: '{tc['input']}'; Submitted: '{answer}'; Correct: '{tc['output']}'")
 
     return all_passed
 
