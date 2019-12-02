@@ -37,11 +37,11 @@ def save(year, day, content_type):
 
 def fetch_and_save(year, day):
     if os.path.exists(f"{CURRENT_DIR}/input.txt"):
-        print("Found input locally, using saved input...\n")
+        print("\nFound input locally, using saved input...\n")
         with open(f"{CURRENT_DIR}/input.txt") as file:
             return file.read()
     else:
-        print("Input not found, fetching...\n")
+        print("\nInput not found, fetching...\n")
         problem_text = save(year, day, content_type="problem")
         print(f"\n{problem_text}\n")
         return save(year, day, content_type="input")
@@ -77,6 +77,10 @@ def submit(year, day, level, answer):
 def test(answer_func, cases):
     all_passed = True
 
+    if not cases:
+        print("Livin' on the edge! No test cases defined.")
+        return all_passed
+
     for tc in cases:
         answer = answer_func(tc['input'], tc['level'])
         if str(tc['output']) == str(answer):
@@ -109,14 +113,14 @@ def handle_error_status(code):
         quit()
 
 
-def run(answer_func, test_cases, year=None, day=None):
+def run(answer_func, test_cases=None, year=None, day=None):
     if not year and not day:
         year, day = detect_time()
 
     problem_input = fetch_and_save(year, day)
 
     if test(answer_func, test_cases):
-        print("\nCongratulations! All tests passed. Now looking to submit your answers...\n")
+        print("\nNow looking to submit your answers...\n")
         stars = check_stars()
         if not stars:
             answer = answer_func(problem_input, 1)

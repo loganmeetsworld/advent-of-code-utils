@@ -31,7 +31,7 @@ We can fetch our input or our problem within a folder like so:
 ```python
 year = 2019
 day = 1
-problem_input = aoc_utils.fetch_and_save(year, day, 'input|problem')
+problem_input = aoc_utils.fetch_and_save('input|problem', year=year, day=day)
 ```
 
 This will fetch the input.txt and problem.txt if they do not exist, otherwise will fetch the problem_input from a saved input.txt file.
@@ -46,14 +46,14 @@ level = 1
 def answer(level, input):
     print('solve puzzle')
 
-aoc_utils.submit(year, day, level, answer)
+aoc_utils.submit(level, answer, year=year, day=day)
 ```
 
 We can also test with test cases that look like this:
 
 ```python
 test_cases = [
-  ['<level>', '<correct_answer>', '<submitted_answer>']
+  {'level': 1, 'input': '12', 'output': '100'}
 ]
 ```
 
@@ -61,7 +61,7 @@ and test like this:
 
 ```python
 test_cases = [
-  ['<level>', '<correct_answer>', '<submitted_answer>']
+  {'level': 1, 'input': '12', 'output': '100'}
 ]
 def answer(level, input):
     print('solve puzzle')
@@ -76,12 +76,12 @@ and then finally, when you put it all together, you simply use `run()` which wil
 year = 2019
 day = 1
 test_cases = [
-  ['<level>', '<correct_answer>', '<submitted_answer>']
+  {'level': 1, 'input': '12', 'output': '100'}
 ]
 def answer(level, input):
     print('solve puzzle')
 
-aoc_utils.run(year, day, test_cases, answer)
+aoc_utils.run(answer, test_cases=test_cases, year=year, day=day)
 ```
 
-We keep state of what questions we've gotten right in a a `stars.txt` file created for correct answers.
+We keep state of what questions we've gotten right in a a `stars.txt` file created for correct answers. Test cases are optional. If there are no tests, it will move to submit.
