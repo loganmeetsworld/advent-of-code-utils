@@ -37,11 +37,11 @@ def save(year, day, content_type):
 
 def fetch_and_save(year, day):
     if os.path.exists(f"{CURRENT_DIR}/input.txt"):
-        print("\nFound input locally, using saved input...\n")
+        print("\n🛷  Found input locally, using saved input 🛷 \n")
         with open(f"{CURRENT_DIR}/input.txt") as file:
             return file.read()
     else:
-        print("\nInput not found, fetching...\n")
+        print("\n🛷  Input not found, fetching 🛷 \n")
         problem_text = save(year, day, content_type="problem")
         print(f"\n{problem_text}\n")
         return save(year, day, content_type="input")
@@ -68,7 +68,7 @@ def submit(year, day, level, answer):
                 print("Updated problem with part 2:\n\n")
                 print(save(year, day, 'problem'))
     elif "not the right answer" in message.lower():
-        print(f"\n{Fore.RED}Wrong answer! For details:\n{Style.RESET_ALL}")
+        print(f"\n{Fore.RED}Wrong answer 🎅🏾🙅🏼‍♀️! For details:\n{Style.RESET_ALL}")
         print(message)
     elif "answer too recently" in message.lower():
         print(f"\n{Fore.YELLOW}You gave an answer too recently{Style.RESET_ALL}")
@@ -84,10 +84,10 @@ def test(answer_func, cases):
     for tc in cases:
         answer = answer_func(tc['input'], tc['level'])
         if str(tc['output']) == str(answer):
-            print(f"{Fore.GREEN}Test passed 🥳 {Style.RESET_ALL} Part {tc['level']}; Input: '{tc['input']}'; Output: '{tc['output']}'")
+            print(f"{Fore.GREEN}🎄 Test passed {Style.RESET_ALL}[Part {tc['level']}] Input: '{tc['input']}'; Output: '{tc['output']}'")
         else:
             all_passed = False
-            print(f"{Fore.RED}Test failed ☹️ {Style.RESET_ALL} Part {tc['level']}; Input: '{tc['input']}'; Submitted: '{answer}'; Correct: '{tc['output']}'")
+            print(f"{Fore.RED}🔥🎄Test failed {Style.RESET_ALL}[Part {tc['level']}] Input: '{tc['input']}'; Submitted: '{answer}'; Correct: '{tc['output']}'")
 
     return all_passed
 
@@ -120,17 +120,17 @@ def run(answer_func, test_cases=None, year=None, day=None):
     problem_input = fetch_and_save(year, day)
 
     if test(answer_func, test_cases):
-        print("\nNow looking to submit your answers...\n")
+        print("\n🍾 Now looking to submit your answers 🍾\n")
         stars = check_stars()
         if not stars:
             answer = answer_func(problem_input, 1)
-            print("You are submitting your answer to part 1 of this puzzle. Do you want to submit? P1: {answer}\n")
+            print("🙇‍♀️ You are submitting your answer to part 1 of this puzzle. \nDo you want to submit? P1: {answer}\n")
             submit_answer = input()
             if submit_answer == 'y':
                 submit(year, day, answer, level=1)
         elif stars == 1:
             answer = answer_func(problem_input, 2)
-            print("It seems we'e been here before and you've submitted one answer ⭐️ Are you sure you want to submit part 2? P2: {answer}\n")
+            print("👯‍♀️  It seems we've been here before and you've submitted one answer ⭐️ \nDo you want to submit? P1: {answer}\n")
             submit_answer = input()
             if submit_answer == 'y':
                 submit(year, day, answer, level=2)
