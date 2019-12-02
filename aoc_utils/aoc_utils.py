@@ -27,9 +27,9 @@ def fetch(year, day, content_type):
         return '\n\n\n'.join([a.text for a in soup.select('article')])
 
 
-def save(path_to_save, year, day, content_type):
+def save(year, day, content_type):
     content = fetch(year, day, content_type)
-    with open(f"{path_to_save}/{content_type}.txt", "w") as text_file:
+    with open(f"{CURRENT_DIR}/{content_type}.txt", "w") as text_file:
         text_file.write(content)
 
     return content
@@ -42,9 +42,9 @@ def fetch_and_save(year, day):
             return file.read()
     else:
         print("Input not found, fetching...\n")
-        problem_text = save(CURRENT_DIR, year, day, content_type="problem")
+        problem_text = save(year, day, content_type="problem")
         print(f"\n{problem_text}\n")
-        return save(CURRENT_DIR, year, day, content_type="input")
+        return save(year, day, content_type="input")
 
 
 def detect_time():
@@ -66,7 +66,7 @@ def submit(year, day, level, answer):
             text_file.write('*')
             if level == 1:
                 print("Updated problem with part 2:\n\n")
-                print(save(CURRENT_DIR, year, day, 'problem'))
+                print(save(year, day, 'problem'))
     elif "not the right answer" in message.lower():
         print(f"\n{Fore.RED}Wrong answer! For details:\n{Style.RESET_ALL}")
         print(message)

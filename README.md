@@ -72,5 +72,9 @@ test_cases = [
 def answer(level, input):
     print('solve puzzle')
 
+<<<<<<< HEAD
 aoc_utils.run(year, day, test_cases, answer)
+=======
+aoc_utils.test_and_submit(year, day, test_cases, answer)
+>>>>>>> 22fa1488ca015332900abb59696248297f850019
 ```
