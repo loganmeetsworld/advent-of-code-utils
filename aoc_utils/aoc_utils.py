@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from colorama import Fore, Style
 import os
 import requests
+import time
 
 CURRENT_DIR = os.getcwd()
 HEADERS = {"cookie": f"session={os.environ['SESSION_COOKIE']}", }
@@ -84,13 +85,16 @@ def test(answer_func, cases):
         return all_passed
 
     for tc in cases:
+        start = time.time()
         answer = answer_func(tc['input'], tc['level'], test=True)
+        end = time.time()
         if str(tc['output']) == str(answer):
             print(f"{Fore.GREEN}🎄 Test passed {Style.RESET_ALL}[Part {tc['level']}] Input: '{tc['input']}'; Output: '{tc['output']}'")
         else:
             all_passed = False
             print(f"{Fore.RED}🔥 Test failed {Style.RESET_ALL}[Part {tc['level']}] Input: '{tc['input']}'; Submitted: '{answer}'; Correct: '{tc['output']}'")
 
+        print(f"\n⏰ Test for level {tc['level']} took {float(end - start)} to run.\n")
     return all_passed
 
 
@@ -126,14 +130,20 @@ def run(answer_func, test_cases=None, year=None, day=None):
         stars = check_stars()
         if not stars:
             level = 1
+            start = time.time()
             answer = answer_func(problem_input, level)
+            end = time.time()
+            print(f"⏰ Part 1 took {float(end - start)} to run.")
             print(f"🙇‍♀️ You are submitting your answer to part 1 of this puzzle. \nDo you want to submit part 1 (y/n)? P1: {answer}")
             submit_answer = input()
             if submit_answer == 'y':
                 submit(answer, level, year, day)
         elif stars == 1:
             level = 2
+            start = time.time()
             answer = answer_func(problem_input, level)
+            end = time.time()
+            print(f"⏰ Part 1 took {float(end - start)} to run.")
             print(f"👯‍♀️  It seems we've been here before and you've submitted one answer ⭐️ \nDo you want to submit part 2 (y/n)? P2: {answer}")
             submit_answer = input()
             if submit_answer == 'y':
